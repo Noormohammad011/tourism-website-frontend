@@ -1,25 +1,62 @@
-import logo from './logo.svg';
-import './App.css';
+import Layout from './Layout/Layout'
+import './App.css'
+import AddTouristPlace from './pages/AddTouristPlace'
+import Home from './pages/Home'
+import { BrowserRouter as Router, Switch, Route } from 'react-router-dom'
+import AuthProvider from './context/AuthProvider'
+import Login from './pages/Login'
+import SignUp from './pages/SignUp'
+import GetAllTouristPlace from './pages/GetAllTouristPlace'
+import EditTouristPlace from './pages/EditTouristPlace'
+import NotFoundPage from './pages/NotFoundPage'
+import BookNow from './pages/BookNow'
+import PrivateRoute from './PrivateRoute/PrivateRoute'
+import MyOrder from './pages/MyOrder'
+import ManageAllOrders from './pages/ManageAllOrders'
+import ContactUsPage from './pages/ContactUsPage'
+import Faq from './pages/Faq'
+import AboutUs from './pages/AboutUs'
+import Gallery from './pages/Gallery'
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+    <Router>
+      <AuthProvider>
+        <Layout>
+          <Switch>
+            <Route path='/' component={Home} exact />
+            <Route path='/home' component={Home} exact />
+            <Route path='/addTouristPlace' component={AddTouristPlace} exact />
+            <Route
+              path='/getAllTouristPlace'
+              component={GetAllTouristPlace}
+              exact
+            />
+            <Route path='/myOrder' component={MyOrder} exact />
+            <Route path='/allOrder' component={ManageAllOrders} exact />
+            <Route path='/faq' component={Faq} exact />
+            <Route path='/about' component={AboutUs} exact />
+            <Route path='/gallery' component={Gallery} exact />
+            <Route
+              path='/getAllTouristPlace/:id/edit'
+              component={EditTouristPlace}
+              exact
+            />
+            <PrivateRoute exact path='/getAllTouristPlace/:id'>
+              <BookNow></BookNow>
+            </PrivateRoute>
+            <PrivateRoute exact path='/contactUs'>
+              <ContactUsPage></ContactUsPage>
+            </PrivateRoute>
+
+            <Route path='/login' component={Login} exact />
+            <Route path='/signup' component={SignUp} exact />
+            <Route path='*' component={NotFoundPage} exact />
+          </Switch>
+        </Layout>
+      </AuthProvider>
+    </Router>
+  )
 }
 
-export default App;
+export default App
